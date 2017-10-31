@@ -2401,15 +2401,22 @@ document.getElementsByTagName('article').item(0).children[0].remove();
 datetime_t = str(datetime.date.today()).split('-')  # 对日期进行拆分，返回一个['2017', '10', '09']形式的列表
 
 
-
-
+#
+#
 def ans0():
-    liebie = ['港澳台', '国际', '人权', '政治', '经贸', '社会', '生态', '科技与文化','中国']
-    for lan in liebie:
+    liebie_dic = {'中国':'%E4%B8%AD%E5%9B%BD','港澳台':'%E6%B8%AF%E6%BE%B3%E5%8F%B0', '国际':'%E5%9B%BD%E9%99%85', '人权':'%E4%BA%BA%E6%9D%83', '政治':'%E6%94%BF%E6%B2%BB', '经贸':'%E7%BB%8F%E8%B4%B8', '社会':'%E7%A4%BE%E4%BC%9A', '生态':'%E7%94%9F%E6%80%81', '科技与文化':'%E7%A7%91%E6%8A%80%E4%B8%8E%E6%96%87%E5%8C%96'}
+    print(liebie_dic['中国'])
+    liebie_list = ['中国','港澳台']
+    for lan in liebie_list:
         url_prefix = 'http://cn.rfi.fr'
-        vol_ul = 'http://cn.rfi.fr/' + lan
+        url_list = []
         vol_tl = lan + '时事'
+        for nu in range(1,3):
+            vol_ul = 'http://cn.rfi.fr/' + liebie_dic[lan] + '/all/?page=' + str(nu)
+            url_list.append(vol_ul)
 
+        print(url_list)
+        print(vol_tl)
     soup = BeautifulSoup(''.join(html))
     article_link = []
     artiultag = soup.find('ul', attrs = {'class':'list'})
@@ -2439,13 +2446,14 @@ def ans0():
         ilinkfind = imagelink.findall(str(link))
         if ilinkfind:
             continue
-        if 'tag' in link['href']:
+        if '/tag/' in link['href']:
             continue
         # print(link)
-        print(url_prefix + link['href'].encode('utf8'))
+        print(url_prefix + link['href'])
         # title_find = re.compile(r'<.*><span>.*</span>(.*)</a>')
         # title_search = title_find.search(str(link))
-        print(link['href'])
+        #print(link['href'])
         print(link.contents[0].strip())
-
+#
 ans0()
+
